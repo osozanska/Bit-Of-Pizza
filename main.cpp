@@ -1,4 +1,5 @@
 #include "raylib.h"
+#include "gra.hpp"
 
 enum Ekran { MENU, GRA, WYJSCIE }; 
 
@@ -45,17 +46,7 @@ int main() {
                 aktualnyEkran = WYJSCIE;
         }
         else if (aktualnyEkran == GRA) {
-            ClearBackground(RAYWHITE); 
-
-            if (IsKeyDown(KEY_RIGHT) || IsKeyDown(KEY_D)) PizzaManX += 5;
-            if (IsKeyDown(KEY_LEFT) || IsKeyDown(KEY_A)) PizzaManX -= 5;
-            if (IsKeyDown(KEY_DOWN)|| IsKeyDown(KEY_S)) PizzaManY += 5;
-            if (IsKeyDown(KEY_UP)|| IsKeyDown(KEY_W)) PizzaManY -= 5;
-
-            DrawTexture(pizzaMan, PizzaManX, PizzaManY, WHITE);
-
-            DrawText("ESC", 200, 550, 20, BLACK);
-            if (IsKeyPressed(KEY_ESCAPE)) aktualnyEkran = MENU;
+            UruchomGre();           
         }
         else if (aktualnyEkran == WYJSCIE) {
             break;
@@ -65,8 +56,6 @@ int main() {
     }
     
     UnloadTexture(tloMenu);
-    UnloadTexture(pizzaMan);
-
     CloseWindow(); 
     return 0;
 }
