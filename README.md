@@ -1,3 +1,2 @@
-Jesteś uczniem zwykłej szkoły, który trafia przypadkiem do zapomnianego, magicznego miasta, ukrytego między wymiarami. 
-Miasto powraca co 100 lat tylko na 3 dni i można się z niego wydostać tylko wtedy, gdy rozwiążesz tajemnicę jego zniknięcia. 
-Masz ograniczony czas i każda decyzja się liczy.
+"Bit of Pizza" to gra, w której gracz wciela się w kucharza pizzerii. 
+Celem gry jest przygotowywanie pizz na zamówienie klientów. Gracz musi dobrać odpowiednie składniki zgodnie z zamówieniem, dbać o odpowiedni czas pieczenia oraz szybko dostarczać pizzę, zanim klienci stracą cierpliwość. Im lepiej i szybciej gracz spełnia wymagania klientów, tym więcej punktów zdobywa. Gra opiera się na zręczności, precyzji i zarządzaniu czasem, oferując dynamiczną i wciągającą rozgrywkę.
