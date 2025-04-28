@@ -9,8 +9,9 @@ int main() {
     SetTargetFPS(60);
 
     Texture2D tloMenu = LoadTexture("obrazki/menu.png");
+    Texture2D tloGry = LoadTexture("obrazki/tloGry.png");
     Texture2D pizzaMan = LoadTexture("obrazki/pizzaman.png");
-
+    
     Ekran aktualnyEkran = MENU;
     int PizzaManX = 100, PizzaManY = 100; 
 
@@ -46,7 +47,7 @@ int main() {
                 aktualnyEkran = WYJSCIE;
         }
         else if (aktualnyEkran == GRA) {
-            UruchomGre();           
+            UruchomGre(tloGry);           
         }
         else if (aktualnyEkran == WYJSCIE) {
             break;
@@ -56,6 +57,7 @@ int main() {
     }
     
     UnloadTexture(tloMenu);
+    UnloadTexture(tloGry);
     CloseWindow(); 
     return 0;
 }
