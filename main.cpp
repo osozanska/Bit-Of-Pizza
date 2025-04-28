@@ -1,5 +1,7 @@
 #include "raylib.h"
 #include "gra.hpp"
+#include "skladnik.hpp"
+#include "pizza.hpp"
 
 enum Ekran { MENU, GRA, WYJSCIE }; 
 
