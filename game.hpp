@@ -1,9 +1,6 @@
-#ifndef GAME_HPP
-#define GAME_HPP
+#ifndef GRA_H
+#define GRA_H
 
-class Game {
-public:
-    void start();
-};
+void UruchomGre(Texture2D tloGry);
 
-#endif
+#endif 
