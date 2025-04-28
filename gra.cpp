@@ -1,7 +1,7 @@
 #include "raylib.h"
 #include "gra.hpp"
 
-void UruchomGre() {
+void UruchomGre(Texture2D tloGry) {
     static int PizzaManX = 100;
     static int PizzaManY = 100;
     static Texture2D pizzaMan;
@@ -13,6 +13,8 @@ void UruchomGre() {
     }
 
     ClearBackground(RAYWHITE);
+
+    DrawTexture(tloGry, 0, 0, WHITE);
 
     if (IsKeyDown(KEY_RIGHT) || IsKeyDown(KEY_D)) PizzaManX += 5;
     if (IsKeyDown(KEY_LEFT)  || IsKeyDown(KEY_A)) PizzaManX -= 5;
