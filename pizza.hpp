@@ -7,7 +7,7 @@
 using namespace std;
 
 class Pizza {
-protected:
+private:
     string nazwaPizzy;
     double czasPieczenia;
     int punkty;
