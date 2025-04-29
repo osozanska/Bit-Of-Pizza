@@ -2,6 +2,7 @@
 #include "gra.hpp"
 #include "skladnik.hpp"
 #include "pizza.hpp"
+#include "punkty.hpp"
 
 enum Ekran { MENU, GRA, WYJSCIE }; 
 
