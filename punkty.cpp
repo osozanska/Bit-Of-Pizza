@@ -12,10 +12,10 @@ int Punkty::getPoziom() const { return poziom; }
 void Punkty::setAktualnePunkty(int aktualnePunkty) {
     this-> aktualnePunkty = aktualnePunkty; 
 }
-void Punkty::setUdaneZamowienia(int liczba) {
+void Punkty::setUdaneZamowienia(int udaneZamowienia) {
     this->udaneZamowienia = udaneZamowienia;
 }
-void Punkty::setNieudaneZamowienia(int liczba){
+void Punkty::setNieudaneZamowienia(int nieudaneZamowienia){
     this-> nieudaneZamowienia = nieudaneZamowienia; 
 }
 void Punkty::setPoziom(int poziom) { 
