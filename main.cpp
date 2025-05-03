@@ -6,7 +6,7 @@
 #include "klient.hpp"
 #include "muzyka.hpp" 
 
-enum Ekran { MENU, GRA, WYJSCIE }; 
+enum Ekran { MENU, GRA, PRZYGOTOWYWANIE_PIZZY, WYJSCIE }; 
 
 int main() {
     const int szerokoscOkna = 800, wysokoscOkna = 600;
@@ -16,12 +16,16 @@ int main() {
     Texture2D tloMenu = LoadTexture("obrazki/menu.png");
     Texture2D tloGry = LoadTexture("obrazki/tloGry.png");
     Texture2D pizzaMan = LoadTexture("obrazki/pizzaman.png");
+    Texture2D tloPrzygotowania = LoadTexture("obrazki/blat.png");
     Muzyka muzyka("muzyka/muzyka.ogg"); 
     
     Ekran aktualnyEkran = MENU;
     int PizzaManX = 100, PizzaManY = 100; 
 
     Klienci klient;
+
+    Rectangle blatGorny = { 102, 152, 214, 96 }; // tak srednio dzialaja jeszcze
+    Rectangle blatDolny = { 102, 344, 214, 96 }; 
 
     while (!WindowShouldClose()) {
         BeginDrawing();
@@ -61,7 +65,26 @@ int main() {
             klient.aktualizuj();
             klient.rysuj();
             klient.sprawdzInterakcje(PizzaManX,PizzaManY);
+            
+            int mouseX = GetMouseX();
+            int mouseY = GetMouseY();
+
+            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+                if (CheckCollisionPointRec((Vector2){(float)GetMouseX(), (float)GetMouseY()}, blatGorny) ||
+                    CheckCollisionPointRec((Vector2){(float)GetMouseX(), (float)GetMouseY()}, blatDolny)) {
+                    aktualnyEkran = PRZYGOTOWYWANIE_PIZZY;
+                }
+            }            
+            
         }
+        else if (aktualnyEkran == PRZYGOTOWYWANIE_PIZZY) {
+            DrawTexture(tloPrzygotowania, 0, 0, WHITE);
+
+            if (IsKeyPressed(KEY_BACKSPACE)) {
+                aktualnyEkran = GRA;
+            }
+        }
+        
         else if (aktualnyEkran == WYJSCIE) {
             break;
         }
