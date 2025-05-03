@@ -12,9 +12,9 @@ Klienci::Klienci() {
 }
 
 void Klienci::aktualizuj() {
-    if (!czyAktywny) return;
+    if (czyAktywny == false) return; // zmiana z !czyAktywny, żeby było bardziej czytelniej jak w każdym.
 
-    if (!zamowieniePrzyjete) {
+    if (zamowieniePrzyjete == true) {
         if (y < 300) {
             y += predkoscY;
         } else {
@@ -28,7 +28,7 @@ void Klienci::aktualizuj() {
 }
 
 void Klienci::rysuj() {
-    if (!czyAktywny) return;
+    if (czyAktywny == false) return;
 
     DrawRectangle(x, y, 30, 40, BLUE);
     DrawText(TextFormat("Pozostaly czas: %i s", pozostalyCzas()), 10, 10, 20, WHITE);
