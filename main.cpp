@@ -2,8 +2,9 @@
 #include "gra.hpp"
 #include "skladnik.hpp"
 #include "pizza.hpp"
-#include "muzyka.hpp" //zmiana1
-
+#include "punkty.hpp"
+#include "klient.hpp"
+#include "muzyka.hpp" 
 
 enum Ekran { MENU, GRA, WYJSCIE }; 
 
@@ -15,14 +16,16 @@ int main() {
     Texture2D tloMenu = LoadTexture("obrazki/menu.png");
     Texture2D tloGry = LoadTexture("obrazki/tloGry.png");
     Texture2D pizzaMan = LoadTexture("obrazki/pizzaman.png");
-    Muzyka muzyka("muzyka/muzyka.ogg"); //zmiana2
-
+    Muzyka muzyka("muzyka/muzyka.ogg"); 
+    
     Ekran aktualnyEkran = MENU;
     int PizzaManX = 100, PizzaManY = 100; 
 
+    Klienci klient;
+
     while (!WindowShouldClose()) {
         BeginDrawing();
-        muzyka.Aktualizuj(); //zmiana3
+        muzyka.Aktualizuj(); 
 
         if (aktualnyEkran == MENU) {
             DrawTexture(tloMenu, 0, 0, WHITE);
@@ -53,7 +56,11 @@ int main() {
                 aktualnyEkran = WYJSCIE;
         }
         else if (aktualnyEkran == GRA) {
-            UruchomGre(tloGry);           
+            UruchomGre(tloGry); 
+             
+            klient.aktualizuj();
+            klient.rysuj();
+            klient.sprawdzInterakcje(PizzaManX,PizzaManY);
         }
         else if (aktualnyEkran == WYJSCIE) {
             break;
@@ -64,7 +71,7 @@ int main() {
     
     UnloadTexture(tloMenu);
     UnloadTexture(tloGry);
-    CloseWindow();
-    muzyka.Zakonczenie(); //zmiana4
+    CloseWindow(); 
+    muzyka.Zakonczenie(); 
     return 0;
 }
