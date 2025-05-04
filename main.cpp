@@ -17,6 +17,7 @@ int main() {
     Texture2D tloGry = LoadTexture("obrazki/tloGry.png");
     Texture2D pizzaMan = LoadTexture("obrazki/pizzaman.png");
     Texture2D tloPrzygotowania = LoadTexture("obrazki/blat.png");
+    Texture2D pizzaObrazek = LoadTexture("obrazki/pizza.png");
     Muzyka muzyka("muzyka/muzyka.ogg"); 
     
     Ekran aktualnyEkran = MENU;
@@ -24,8 +25,14 @@ int main() {
 
     Klienci klient;
 
-    Rectangle blatGorny = { 102, 152, 214, 96 }; // tak srednio dzialaja jeszcze
-    Rectangle blatDolny = { 102, 344, 214, 96 }; 
+    Rectangle walek = { 411, 50, 239, 81 };
+
+    bool pizzaDodana = false;
+    int pizzaX = 0;
+    int pizzaY = 0;
+
+    Rectangle blatGorny = { 76, 215, 239, 98 }; 
+    Rectangle blatDolny = { 26, 414, 315, 102 }; 
 
     while (!WindowShouldClose()) {
         BeginDrawing();
@@ -70,31 +77,41 @@ int main() {
             int mouseY = GetMouseY();
 
             if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-                if (CheckCollisionPointRec((Vector2){(float)GetMouseX(), (float)GetMouseY()}, blatGorny) ||
-                    CheckCollisionPointRec((Vector2){(float)GetMouseX(), (float)GetMouseY()}, blatDolny)) {
+                if (CheckCollisionPointRec((Vector2){(float)mouseX, (float)mouseY}, blatGorny) ||
+                    CheckCollisionPointRec((Vector2){(float)mouseX, (float)mouseY}, blatDolny)) {
                     aktualnyEkran = PRZYGOTOWYWANIE_PIZZY;
                 }
             }            
-            
         }
         else if (aktualnyEkran == PRZYGOTOWYWANIE_PIZZY) {
             DrawTexture(tloPrzygotowania, 0, 0, WHITE);
 
-            if (IsKeyPressed(KEY_BACKSPACE)) {
+            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+                if (CheckCollisionPointRec((Vector2){(float)GetMouseX(), (float)GetMouseY()}, walek)) {
+                    pizzaDodana = true;
+                    pizzaX = 0; 
+                    pizzaY = 0;
+                }
+            }
+            if (pizzaDodana) {
+                DrawTexture(pizzaObrazek, pizzaX, pizzaY, WHITE);
+            }
+
+            if (IsKeyPressed(KEY_ESCAPE)) {
                 aktualnyEkran = GRA;
+                pizzaDodana = false; 
             }
         }
-        
         else if (aktualnyEkran == WYJSCIE) {
             break;
         }
 
         EndDrawing();
     }
-    
     UnloadTexture(tloMenu);
     UnloadTexture(tloGry);
-    CloseWindow(); 
+    CloseWindow();
+    UnloadTexture(pizzaObrazek);
     muzyka.Zakonczenie(); 
     return 0;
 }
