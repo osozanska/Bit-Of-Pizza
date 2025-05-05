@@ -21,6 +21,11 @@ void UruchomGre(Texture2D tloGry) {
     if (IsKeyDown(KEY_DOWN)  || IsKeyDown(KEY_S)) PizzaManY += 5;
     if (IsKeyDown(KEY_UP)    || IsKeyDown(KEY_W)) PizzaManY -= 5;
 
+    if (PizzaManX < 0) PizzaManX = 0;
+    if (PizzaManX > 800 - pizzaMan.width) PizzaManX = 800 - pizzaMan.width;
+    if (PizzaManY < 0) PizzaManY = 0;
+    if (PizzaManY > 600 - pizzaMan.height) PizzaManY = 600 - pizzaMan.height;
+
     DrawTexture(pizzaMan, PizzaManX, PizzaManY, WHITE);
 
     DrawText("ESC", 200, 550, 20, BLACK);
