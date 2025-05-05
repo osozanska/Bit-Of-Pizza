@@ -18,6 +18,11 @@ int main() {
     Texture2D pizzaMan = LoadTexture("obrazki/pizzaman.png");
     Texture2D tloPrzygotowania = LoadTexture("obrazki/blat.png");
     Texture2D pizzaObrazek = LoadTexture("obrazki/pizza.png");
+    Texture2D sosObrazek = LoadTexture("obrazki/sos.png");
+    Texture2D serObrazek = LoadTexture("obrazki/ser.png");
+    Texture2D pieczarkiObrazek = LoadTexture("obrazki/pieczarki.png");
+    Texture2D cebulaObrazek = LoadTexture("obrazki/cebula.png");
+    Texture2D peperoniObrazek = LoadTexture("obrazki/peperoni.png");
     Muzyka muzyka("muzyka/muzyka.ogg"); 
     
     Ekran aktualnyEkran = MENU;
@@ -33,6 +38,32 @@ int main() {
 
     Rectangle blatGorny = { 76, 215, 239, 98 }; 
     Rectangle blatDolny = { 26, 414, 315, 102 }; 
+
+    Rectangle sos = { 198, 26, 133, 100 }; 
+    bool sosDodany = false;
+    int sosX = 0; 
+    int sosY = 0;
+
+    Rectangle ser = { 49, 31, 133, 105 }; 
+    bool serDodany = false;
+    int serX = 0; 
+    int serY = 0;
+
+    Rectangle pieczarki = { 47, 169, 143, 107 }; 
+    bool pieczarkiDodane = false;
+    int pieczarkiX = 0; 
+    int pieczarkiY = 0;
+
+    
+    Rectangle cebula = { 51, 296, 142, 108 }; 
+    bool cebulaDodana = false;
+    int cebulaX = 0; 
+    int cebulaY = 0;
+
+    Rectangle peperoni = { 49, 446, 153, 113 }; 
+    bool peperoniDodane = false;
+    int peperoniX = 0; 
+    int peperoniY = 0;
 
     while (!WindowShouldClose()) {
         BeginDrawing();
@@ -92,14 +123,58 @@ int main() {
                     pizzaX = 0; 
                     pizzaY = 0;
                 }
+                if (CheckCollisionPointRec((Vector2){(float)GetMouseX(), (float)GetMouseY()}, sos)) {
+                    sosDodany = true;
+                    sosX = 0;
+                    sosY = 0;
+                }
+                if (CheckCollisionPointRec((Vector2){(float)GetMouseX(), (float)GetMouseY()}, ser)) {
+                    serDodany = true;
+                    serX = 0;
+                    serY = 0;
+                }
+                if (CheckCollisionPointRec((Vector2){(float)GetMouseX(), (float)GetMouseY()}, pieczarki)) {
+                    pieczarkiDodane = true;
+                    pieczarkiX = 0;
+                    pieczarkiY = 0;
+                }
+                if (CheckCollisionPointRec((Vector2){(float)GetMouseX(), (float)GetMouseY()}, cebula)) {
+                    cebulaDodana = true;
+                    cebulaX = 0;
+                    cebulaY = 0;
+                }
+                if (CheckCollisionPointRec((Vector2){(float)GetMouseX(), (float)GetMouseY()}, peperoni)) {
+                    peperoniDodane = true;
+                    peperoniX = 0;
+                    peperoniY = 0;
+                }
             }
             if (pizzaDodana) {
                 DrawTexture(pizzaObrazek, pizzaX, pizzaY, WHITE);
             }
-
+            if (sosDodany) {
+                DrawTexture(sosObrazek, sosX, sosY, WHITE);
+            }            
+            if (serDodany) {
+                DrawTexture(serObrazek, sosX, sosY, WHITE);
+            }    
+            if (pieczarkiDodane) {
+                DrawTexture(pieczarkiObrazek, sosX, sosY, WHITE);
+            }    
+            if (cebulaDodana) {
+                DrawTexture(cebulaObrazek, sosX, sosY, WHITE);
+            }    
+            if (peperoniDodane) {
+                DrawTexture(peperoniObrazek, sosX, sosY, WHITE);
+            }    
             if (IsKeyPressed(KEY_ESCAPE)) {
                 aktualnyEkran = GRA;
-                pizzaDodana = false; 
+                pizzaDodana = false;
+                sosDodany = false;
+                serDodany = false;
+                pieczarkiDodane = false;
+                cebulaDodana = false;
+                peperoniDodane = false;
             }
         }
         else if (aktualnyEkran == WYJSCIE) {
@@ -112,6 +187,11 @@ int main() {
     UnloadTexture(tloGry);
     CloseWindow();
     UnloadTexture(pizzaObrazek);
+    UnloadTexture(sosObrazek);
+    UnloadTexture(serObrazek);
+    UnloadTexture(pieczarkiObrazek);
+    UnloadTexture(cebulaObrazek);
+    UnloadTexture(peperoniObrazek);
     muzyka.Zakonczenie(); 
     return 0;
 }
