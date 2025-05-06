@@ -6,7 +6,7 @@
 #include "klient.hpp"
 #include "muzyka.hpp" 
 
-enum Ekran { MENU, GRA, PRZYGOTOWYWANIE_PIZZY, PIEC_ZBLIŻENIE, WYJSCIE };
+enum Ekran { MENU, GRA, PRZYGOTOWYWANIE_PIZZY, PIEC_ZBLIŻENIE, WYJSCIE, INSTRUKCJA};
 
 int main() {
     const int szerokoscOkna = 800, wysokoscOkna = 600;
@@ -104,20 +104,26 @@ int main() {
             DrawRectangleRec(przyciskStart, ORANGE);
             DrawText("Start", przyciskStart.x + 70, przyciskStart.y + 10, 30, WHITE);
 
-            Rectangle przyciskWyjscie = { szerokoscOkna / 2 - 100, 340, 200, 50 };
+            Rectangle przyciskInstrukcja = {szerokoscOkna / 2 - 100, 300,200,50};
+            DrawRectangleRec(przyciskInstrukcja, ORANGE);
+            DrawText("Instrukcja", przyciskInstrukcja.x  + 50, przyciskInstrukcja.y + 10, 30, WHITE);
+
+            Rectangle przyciskWyjscie = { szerokoscOkna / 2 - 100, 400, 200, 50 };
             DrawRectangleRec(przyciskWyjscie, ORANGE);
-            DrawText("Wyjscie", przyciskWyjscie.x + 60, przyciskWyjscie.y + 10, 30, WHITE);
+            DrawText("Wyjscie", przyciskWyjscie.x + 20, przyciskWyjscie.y + 10, 30, WHITE);
 
             if (CheckCollisionPointRec(GetMousePosition(), przyciskStart) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
                 aktualnyEkran = GRA;
+            if (CheckCollisionPointRec(GetMousePosition(), przyciskInstrukcja) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+                aktualnyEkran = INSTRUKCJA;
             if (CheckCollisionPointRec(GetMousePosition(), przyciskWyjscie) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
                 aktualnyEkran = WYJSCIE;
         }
         else if (aktualnyEkran == GRA) {
             UruchomGre(tloGry); 
              
-            klient.aktualizuj();
             klient.rysuj();
+            klient.aktualizuj();
             klient.sprawdzInterakcje(PizzaManX,PizzaManY);
             
             int mouseX = GetMouseX();
@@ -233,10 +239,13 @@ int main() {
                 piecPizzaDodane = false;
             }
         }
-               
+        else if(aktualnyEkran == INSTRUKCJA){
+            ClearBackground(ORANGE);
+        }  
         else if (aktualnyEkran == WYJSCIE) {
             break;
         }
+        
 
         EndDrawing();
     }
