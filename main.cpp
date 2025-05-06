@@ -24,7 +24,13 @@ int main() {
     Texture2D cebulaObrazek = LoadTexture("obrazki/cebula.png");
     Texture2D peperoniObrazek = LoadTexture("obrazki/peperoni.png");
     Texture2D piecZblizenie = LoadTexture("obrazki/piec.png");
-    Texture2D piecPizzaObrazek = LoadTexture("obrazki/piecPizza.png"); // zmienie na jasniejszy troche, bo tu juz lekko przypalona
+    Texture2D pizzaSurowa = LoadTexture("obrazki/pizzaSurowa.png");
+    Texture2D pizzaUpieczona = LoadTexture("obrazki/pizzaUpieczona.png");
+    Texture2D pizzaPrzypalona = LoadTexture("obrazki/pizzaSpalona.png");
+
+    bool pizzaWPiecu = false;
+    float czasWPiecu = 0.0;
+    int stanPieczenia = 0;
 
     Muzyka muzyka("muzyka/muzyka.ogg"); 
     
@@ -190,21 +196,41 @@ int main() {
                 cebulaDodana = false;
                 peperoniDodane = false;
             }
-        } else if (aktualnyEkran == PIEC_ZBLIŻENIE) {
+        }else if (aktualnyEkran == PIEC_ZBLIŻENIE) {
             DrawTexture(piecZblizenie, 0, 0, WHITE);
-            
+        
             if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
                 if (CheckCollisionPointRec((Vector2){(float)GetMouseX(), (float)GetMouseY()}, piecPizza)) {
                     piecPizzaDodane = true;
-                    piecPizzaX = 0;
-                    piecPizzaY = 0;
+                    pizzaWPiecu = true;
+                    czasWPiecu = 0.0;
+                    stanPieczenia = 0;
                 }
             }
-            if (piecPizzaDodane) {
-                DrawTexture(piecPizzaObrazek, pizzaX, pizzaY, WHITE);
+            if (pizzaWPiecu) {
+                czasWPiecu += GetFrameTime();
+        
+                if (czasWPiecu >= 10.0) {
+                    stanPieczenia = 2; 
+                } else if (czasWPiecu >= 5.0) {
+                    stanPieczenia = 1; 
+                }
+        
+                if (stanPieczenia == 0)
+                    DrawTexture(pizzaSurowa, piecPizzaX, piecPizzaY, WHITE);
+                else if (stanPieczenia == 1)
+                    DrawTexture(pizzaUpieczona, piecPizzaX, piecPizzaY, WHITE);
+                else if (stanPieczenia == 2)
+                    DrawTexture(pizzaPrzypalona, piecPizzaX, piecPizzaY, WHITE);
+            }
+            if (IsKeyPressed(KEY_SPACE)) {
+                pizzaWPiecu = false;
+                piecPizzaDodane = false;  
             }
             if (IsKeyPressed(KEY_BACKSPACE)) {
                 aktualnyEkran = GRA;
+                pizzaWPiecu = false;
+                piecPizzaDodane = false;
             }
         }
                
@@ -223,7 +249,10 @@ int main() {
     UnloadTexture(pieczarkiObrazek);
     UnloadTexture(cebulaObrazek);
     UnloadTexture(peperoniObrazek);
-    UnloadTexture(piecPizzaObrazek);
+    UnloadTexture(pizzaSurowa);
+    UnloadTexture(pizzaUpieczona);
+    UnloadTexture(pizzaPrzypalona);
+
     muzyka.Zakonczenie(); 
     return 0;
 }
