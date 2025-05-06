@@ -5,22 +5,24 @@
 
 class Klienci {
 private:
-    int x = 700;
-    int y = 0;
-    int predkoscY = 2;
-    bool czyAktywny = true;
-    bool zamowieniePrzyjete = false;
-    float czasStart = 0;  
-    int czasNaZamowienie = 120;
+    int x;
+    int y;
+    int predkoscY;
+    bool czyAktywny;
+    bool zamowieniePrzyjete;
+    float czasStart; 
+    int czasNaZamowienie;
+    Texture2D klient;
 
 public:
-    Klienci();
+    Klienci(); 
+    Klienci(int x, int y, int predkoscY, int czasNaZamowienie); 
 
     void aktualizuj();                     
     void rysuj();                          
     void sprawdzInterakcje(int graczX, int graczY); 
     int pozostalyCzas();                  
-    bool aktywny();                      
+    bool aktywny();              
 };
 
 #endif
