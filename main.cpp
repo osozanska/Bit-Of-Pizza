@@ -6,7 +6,7 @@
 #include "klient.hpp"
 #include "muzyka.hpp" 
 
-enum Ekran { MENU, GRA, PRZYGOTOWYWANIE_PIZZY, WYJSCIE }; 
+enum Ekran { MENU, GRA, PRZYGOTOWYWANIE_PIZZY, PIEC_ZBLIŻENIE, WYJSCIE };
 
 int main() {
     const int szerokoscOkna = 800, wysokoscOkna = 600;
@@ -23,6 +23,9 @@ int main() {
     Texture2D pieczarkiObrazek = LoadTexture("obrazki/pieczarki.png");
     Texture2D cebulaObrazek = LoadTexture("obrazki/cebula.png");
     Texture2D peperoniObrazek = LoadTexture("obrazki/peperoni.png");
+    Texture2D piecZblizenie = LoadTexture("obrazki/piec.png");
+    Texture2D piecPizzaObrazek = LoadTexture("obrazki/piecPizza.png"); // zmienie na jasniejszy troche, bo tu juz lekko przypalona
+
     Muzyka muzyka("muzyka/muzyka.ogg"); 
     
     Ekran aktualnyEkran = MENU;
@@ -65,6 +68,13 @@ int main() {
     int peperoniX = 0; 
     int peperoniY = 0;
 
+    Rectangle piec = { 320, 97, 183, 150 }; 
+
+    Rectangle piecPizza = { 215, 154, 392, 325 }; 
+    bool piecPizzaDodane = false;
+    int piecPizzaX = 0; 
+    int piecPizzaY = 0;
+
     while (!WindowShouldClose()) {
         BeginDrawing();
         muzyka.Aktualizuj(); 
@@ -90,7 +100,7 @@ int main() {
 
             Rectangle przyciskWyjscie = { szerokoscOkna / 2 - 100, 340, 200, 50 };
             DrawRectangleRec(przyciskWyjscie, ORANGE);
-            DrawText("wyjscie", przyciskWyjscie.x + 60, przyciskWyjscie.y + 10, 30, WHITE);
+            DrawText("Wyjscie", przyciskWyjscie.x + 60, przyciskWyjscie.y + 10, 30, WHITE);
 
             if (CheckCollisionPointRec(GetMousePosition(), przyciskStart) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
                 aktualnyEkran = GRA;
@@ -112,6 +122,10 @@ int main() {
                     CheckCollisionPointRec((Vector2){(float)mouseX, (float)mouseY}, blatDolny)) {
                     aktualnyEkran = PRZYGOTOWYWANIE_PIZZY;
                 }
+                if (CheckCollisionPointRec((Vector2){(float)mouseX, (float)mouseY}, piec)) {
+                    aktualnyEkran = PIEC_ZBLIŻENIE;
+                }
+                
             }            
         }
         else if (aktualnyEkran == PRZYGOTOWYWANIE_PIZZY) {
@@ -167,7 +181,7 @@ int main() {
             if (peperoniDodane) {
                 DrawTexture(peperoniObrazek, sosX, sosY, WHITE);
             }    
-            if (IsKeyPressed(KEY_ESCAPE)) {
+            if (IsKeyPressed(KEY_BACKSPACE)) {
                 aktualnyEkran = GRA;
                 pizzaDodana = false;
                 sosDodany = false;
@@ -176,7 +190,24 @@ int main() {
                 cebulaDodana = false;
                 peperoniDodane = false;
             }
+        } else if (aktualnyEkran == PIEC_ZBLIŻENIE) {
+            DrawTexture(piecZblizenie, 0, 0, WHITE);
+            
+            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+                if (CheckCollisionPointRec((Vector2){(float)GetMouseX(), (float)GetMouseY()}, piecPizza)) {
+                    piecPizzaDodane = true;
+                    piecPizzaX = 0;
+                    piecPizzaY = 0;
+                }
+            }
+            if (piecPizzaDodane) {
+                DrawTexture(piecPizzaObrazek, pizzaX, pizzaY, WHITE);
+            }
+            if (IsKeyPressed(KEY_BACKSPACE)) {
+                aktualnyEkran = GRA;
+            }
         }
+               
         else if (aktualnyEkran == WYJSCIE) {
             break;
         }
@@ -192,6 +223,7 @@ int main() {
     UnloadTexture(pieczarkiObrazek);
     UnloadTexture(cebulaObrazek);
     UnloadTexture(peperoniObrazek);
+    UnloadTexture(piecPizzaObrazek);
     muzyka.Zakonczenie(); 
     return 0;
 }
