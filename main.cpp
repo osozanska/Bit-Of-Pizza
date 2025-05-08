@@ -149,30 +149,32 @@ int main() {
                     pizzaX = 0; 
                     pizzaY = 0;
                 }
-                if (CheckCollisionPointRec((Vector2){(float)GetMouseX(), (float)GetMouseY()}, sos)) {
-                    sosDodany = true;
-                    sosX = 0;
-                    sosY = 0;
-                }
-                if (CheckCollisionPointRec((Vector2){(float)GetMouseX(), (float)GetMouseY()}, ser)) {
-                    serDodany = true;
-                    serX = 0;
-                    serY = 0;
-                }
-                if (CheckCollisionPointRec((Vector2){(float)GetMouseX(), (float)GetMouseY()}, pieczarki)) {
-                    pieczarkiDodane = true;
-                    pieczarkiX = 0;
-                    pieczarkiY = 0;
-                }
-                if (CheckCollisionPointRec((Vector2){(float)GetMouseX(), (float)GetMouseY()}, cebula)) {
-                    cebulaDodana = true;
-                    cebulaX = 0;
-                    cebulaY = 0;
-                }
-                if (CheckCollisionPointRec((Vector2){(float)GetMouseX(), (float)GetMouseY()}, peperoni)) {
-                    peperoniDodane = true;
-                    peperoniX = 0;
-                    peperoniY = 0;
+                if (pizzaDodana){
+                    if (CheckCollisionPointRec((Vector2){(float)GetMouseX(), (float)GetMouseY()}, sos)) {
+                        sosDodany = true;
+                        sosX = 0;
+                        sosY = 0;
+                    }
+                    if (CheckCollisionPointRec((Vector2){(float)GetMouseX(), (float)GetMouseY()}, ser)) {
+                        serDodany = true;
+                        serX = 0;
+                        serY = 0;
+                    }
+                    if (CheckCollisionPointRec((Vector2){(float)GetMouseX(), (float)GetMouseY()}, pieczarki)) {
+                        pieczarkiDodane = true;
+                        pieczarkiX = 0;
+                        pieczarkiY = 0;
+                    }
+                    if (CheckCollisionPointRec((Vector2){(float)GetMouseX(), (float)GetMouseY()}, cebula)) {
+                        cebulaDodana = true;
+                        cebulaX = 0;
+                        cebulaY = 0;
+                    }
+                    if (CheckCollisionPointRec((Vector2){(float)GetMouseX(), (float)GetMouseY()}, peperoni)) {
+                        peperoniDodane = true;
+                        peperoniX = 0;
+                        peperoniY = 0;
+                    }
                 }
             }
             if (pizzaDodana) {
@@ -192,7 +194,11 @@ int main() {
             }    
             if (peperoniDodane) {
                 DrawTexture(peperoniObrazek, sosX, sosY, WHITE);
-            }    
+            }
+            
+            if (!pizzaDodana) {
+                DrawText("Kliknij walek, aby rozpoczac!", 300, 550, 30, WHITE);
+            }
             if (IsKeyPressed(KEY_BACKSPACE)) {
                 aktualnyEkran = GRA;
                 pizzaDodana = false;
@@ -204,15 +210,18 @@ int main() {
             }
         }else if (aktualnyEkran == PIEC_ZBLIŻENIE) {
             DrawTexture(piecZblizenie, 0, 0, WHITE);
-        
+            
             if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
                 if (CheckCollisionPointRec((Vector2){(float)GetMouseX(), (float)GetMouseY()}, piecPizza)) {
-                    piecPizzaDodane = true;
-                    pizzaWPiecu = true;
-                    czasWPiecu = 0.0;
-                    stanPieczenia = 0;
+                    //if (pizzaDodana) 
+                    {
+                        piecPizzaDodane = true;
+                        pizzaWPiecu = true;
+                        czasWPiecu = 0.0;
+                        stanPieczenia = 0;
                 }
             }
+        }
             if (pizzaWPiecu) {
                 czasWPiecu += GetFrameTime();
         
@@ -229,6 +238,9 @@ int main() {
                 else if (stanPieczenia == 2)
                     DrawTexture(pizzaPrzypalona, piecPizzaX, piecPizzaY, WHITE);
             }
+            //if (!pizzaDodana) {
+                //DrawText("Najpierw przygotuj pizze!", 250, 20, 30, WHITE);
+           // }
             if (IsKeyPressed(KEY_SPACE)) {
                 pizzaWPiecu = false;
                 piecPizzaDodane = false;  
@@ -239,6 +251,7 @@ int main() {
                 piecPizzaDodane = false;
             }
         }
+    
         else if(aktualnyEkran == INSTRUKCJA){
             ClearBackground(ORANGE);
         }  
