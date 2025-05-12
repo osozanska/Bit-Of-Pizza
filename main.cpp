@@ -81,6 +81,8 @@ int main() {
     int piecPizzaX = 0; 
     int piecPizzaY = 0;
 
+    bool czyPizzaPrzygotowana = false;
+
     while (!WindowShouldClose()) {
         BeginDrawing();
         muzyka.Aktualizuj(); 
@@ -102,15 +104,15 @@ int main() {
 
             Rectangle przyciskStart = { szerokoscOkna / 2 - 100, 200, 200, 50 };
             DrawRectangleRec(przyciskStart, ORANGE);
-            DrawText("Start", przyciskStart.x + 70, przyciskStart.y + 10, 30, WHITE);
+            DrawText("Start", przyciskStart.x + 60, przyciskStart.y + 10, 30, WHITE);
 
             Rectangle przyciskInstrukcja = {szerokoscOkna / 2 - 100, 300,200,50};
             DrawRectangleRec(przyciskInstrukcja, ORANGE);
-            DrawText("Instrukcja", przyciskInstrukcja.x  + 50, przyciskInstrukcja.y + 10, 30, WHITE);
+            DrawText("Instrukcja", przyciskInstrukcja.x  + 23, przyciskInstrukcja.y + 10, 30, WHITE);
 
             Rectangle przyciskWyjscie = { szerokoscOkna / 2 - 100, 400, 200, 50 };
             DrawRectangleRec(przyciskWyjscie, ORANGE);
-            DrawText("Wyjscie", przyciskWyjscie.x + 20, przyciskWyjscie.y + 10, 30, WHITE);
+            DrawText("Wyjscie", przyciskWyjscie.x + 50, przyciskWyjscie.y + 10, 30, WHITE);
 
             if (CheckCollisionPointRec(GetMousePosition(), przyciskStart) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
                 aktualnyEkran = GRA;
@@ -146,6 +148,7 @@ int main() {
             if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
                 if (CheckCollisionPointRec((Vector2){(float)GetMouseX(), (float)GetMouseY()}, walek)) {
                     pizzaDodana = true;
+                    czyPizzaPrzygotowana = true;
                     pizzaX = 0; 
                     pizzaY = 0;
                 }
@@ -213,13 +216,12 @@ int main() {
             
             if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
                 if (CheckCollisionPointRec((Vector2){(float)GetMouseX(), (float)GetMouseY()}, piecPizza)) {
-                    //if (pizzaDodana) 
-                    {
+                    if (czyPizzaPrzygotowana) {
                         piecPizzaDodane = true;
                         pizzaWPiecu = true;
                         czasWPiecu = 0.0;
                         stanPieczenia = 0;
-                }
+                    }                    
             }
         }
             if (pizzaWPiecu) {
@@ -238,22 +240,30 @@ int main() {
                 else if (stanPieczenia == 2)
                     DrawTexture(pizzaPrzypalona, piecPizzaX, piecPizzaY, WHITE);
             }
-            //if (!pizzaDodana) {
-                //DrawText("Najpierw przygotuj pizze!", 250, 20, 30, WHITE);
-           // }
-            if (IsKeyPressed(KEY_SPACE)) {
-                pizzaWPiecu = false;
-                piecPizzaDodane = false;  
-            }
+            if (!czyPizzaPrzygotowana) {
+                DrawText("Najpierw przygotuj pizze!", 220, 30, 30, WHITE);
+           }
+           if (IsKeyPressed(KEY_SPACE)) {
+            pizzaWPiecu = false;
+            piecPizzaDodane = false; 
+            pizzaDodana = false;
+            czyPizzaPrzygotowana = false;
+        }
+        
             if (IsKeyPressed(KEY_BACKSPACE)) {
                 aktualnyEkran = GRA;
                 pizzaWPiecu = false;
                 piecPizzaDodane = false;
+                czyPizzaPrzygotowana = false;
             }
         }
     
         else if(aktualnyEkran == INSTRUKCJA){
             ClearBackground(ORANGE);
+        
+            if (IsKeyPressed(KEY_BACKSPACE)) {
+                aktualnyEkran = MENU;
+            }
         }  
         else if (aktualnyEkran == WYJSCIE) {
             break;
