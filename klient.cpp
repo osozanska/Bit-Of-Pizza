@@ -14,7 +14,7 @@ Klienci::Klienci() {
     klient = LoadTexture("obrazki/klient.png");
 }
 
-Klienci::Klienci(int x, int y, int predkoscY, int czasNaZamowienie, int pizzaID, float czasNowy, bool oddana, int punkty, bool zadowolony) : Zamowienie(pizzaID, zadowolony, punkty),  x(x), y(y), predkoscY(predkoscY), czasNaZamowienie(czasNaZamowienie), czasNaNowegoKlienta(czasNowy), czyOddana(oddana), czasStart(GetTime()), czyAktywny(true), zamowieniePrzyjete(false){}
+Klienci::Klienci(int x, int y, int predkoscY, int czasNaZamowienie, int pizzaID, float czasNowy, bool oddana, int punkty, bool zadowolony) : Zamowienie(pizzaID, zadowolony, punkty, zrobionePizze, zadowoleniKlienci),  x(x), y(y), predkoscY(predkoscY), czasNaZamowienie(czasNaZamowienie), czasNaNowegoKlienta(czasNowy), czyOddana(oddana), czasStart(GetTime()), czyAktywny(true), zamowieniePrzyjete(false){}
 
 void Klienci::aktualizuj() {
     if (!czyAktywny) {
@@ -70,6 +70,12 @@ void Klienci::sprawdzInterakcje(int graczX, int graczY, bool pizzaDodana, bool s
             sprawdzPoprawnosc(pizzaDodana, sosDodany, serDodany, peperoniDodane, pieczarkiDodane, cebulaDodana, popranwiePrzypieczona);
             czyAktywny = false;
             czasNaNowegoKlienta = GetTime();
+            sosDodany = false;
+            pizzaDodana = false;
+            serDodany = false;
+            peperoniDodane = false;
+            pieczarkiDodane = false;
+            cebulaDodana = false;
         }
     }
 }
@@ -80,6 +86,10 @@ int Klienci::pozostalyCzas() {
     return (czasNaZamowienie - uplynelo < 0) ? 0 : czasNaZamowienie - uplynelo;
 }
 
-bool Klienci::aktywny() {
+bool Klienci::getAktywny() {
     return czyAktywny;
+}
+
+bool Klienci::czyGraSkonczona(){
+    return pozostalyCzas() <= 0;
 }
