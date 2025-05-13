@@ -15,7 +15,7 @@ private:
     bool zamowieniePrzyjete;
     float czasStart; 
     int czasNaZamowienie;
-    int zamowionaPizzaID;
+    int zamowionaPizzaID; 
     bool pizzaDodana;
     bool sosDodany;
     bool serDodany;
@@ -24,20 +24,25 @@ private:
     bool peperoniDodane;
     bool piecPizzaDodane;
     bool czyOddana;
+    bool czyZadowolony;
     Texture2D klient;
+    float czasNaNowegoKlienta;
+    int punkty;
+    float czasZadowolenia; 
 
 public:
-    Klienci(); 
-    Klienci(int x, int y, int predkoscY, int czasNaZamowienie, int zamowionaPizzaID, bool pizzaDodana, bool sosDodany, bool peperoniDodane, bool pieczarkiDodane, bool cebulaDodana, bool czyOddana); 
+    Klienci();
+    Klienci(int x, int y, int predkoscY, int czasNaZamowienie, int zamowionaPizzaID, bool pizzaDodana, bool sosDodany,bool serDodany, bool peperoniDodane, bool pieczarkiDodane, bool cebulaDodana, float czasNaNowegoKlienta,bool czyOddana,int punkty, bool czyZadowolony);
 
-    void aktualizuj();                     
+    void aktualizuj();                      
     void rysuj();                          
-    void sprawdzInterakcje(int graczX, int graczY); 
-    int pozostalyCzas();                  
-    bool aktywny();   
-    int getPizzaId();
-    void wyloswaneId();
-    string zamowionaPizza();     
+    void sprawdzInterakcje(int graczX, int graczY, bool pizzaDodana, bool sosDodany, bool serDodany, bool peperoniDodane, bool pieczarkiDodane, bool cebulaDodana); 
+    int pozostalyCzas();                    
+    bool aktywny();                         
+    int getPizzaId();                      
+    void wylosowaneId();                   
+    string zamowionaPizza();               
+    void poprawnoscZamowienia(bool pizzaDodana, bool sosDodany,bool serDodany, bool peperoniDodane, bool pieczarkiDodane, bool cebulaDodana);
 };
 
 #endif
