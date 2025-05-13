@@ -26,8 +26,8 @@ g++ main.cpp -o pizza -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
 ----------Poznaj sterowanie!-----------
 
 Mysz: Używaj myszy do interakcji z poszczególnymi składnikami i elementami gry (np. piecem, klientami).
-Klawisz BACKSPACE: Powrót do poprzedniego ekranu.
-Klawisz SPACJA: Wyjęcie pizzy z pieca.
+Klawisz BACKSPACE: Wyjście z danego ekranu.
+Klawisz SPACJA: Reset.
 
 --------Jak przygotowac pizze?---------
 
