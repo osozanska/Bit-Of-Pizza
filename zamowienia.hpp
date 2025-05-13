@@ -10,10 +10,12 @@ protected:
     bool czyZadowolony;
     int punkty;
 
+
 public:
     Zamowienie();
+    Zamowienie(int zamowionaPizzaID, bool czyZadowolony, int punkty);
     void wylosujPizzaID();
-    void sprawdzPoprawnosc(bool pizzaDodana, bool sosDodany, bool serDodany, bool peperoniDodane, bool pieczarkiDodane, bool cebulaDodana);
+    void sprawdzPoprawnosc(bool pizzaDodana, bool sosDodany, bool serDodany, bool peperoniDodane, bool pieczarkiDodane, bool cebulaDodana,int statusPieczenia);
     string tekstZamowienia() const;
     bool getCzyZadowolony() const;
     int getPunkty() const;
