@@ -7,7 +7,7 @@
 #include "muzyka.hpp" 
 #include "zamowienia.hpp"
 
-enum Ekran { MENU, GRA, PRZYGOTOWYWANIE_PIZZY, PIEC_ZBLIŻENIE, WYJSCIE, INSTRUKCJA, PROFIL};
+enum Ekran { MENU, GRA, PRZYGOTOWYWANIE_PIZZY, PIEC_ZBLIŻENIE, WYJSCIE, INSTRUKCJA, PROFIL,KONIEC_GRY};
 
 int main() {
     const int szerokoscOkna = 800, wysokoscOkna = 600;
@@ -29,10 +29,16 @@ int main() {
     Texture2D pizzaUpieczona = LoadTexture("obrazki/pizzaUpieczona.png");
     Texture2D pizzaPrzypalona = LoadTexture("obrazki/pizzaSpalona.png");
     Texture2D tloProfil = LoadTexture("obrazki/profil.png");
+    Texture2D instrukcja = LoadTexture("obrazki/instrukcja.png");
+    Texture2D koniec = LoadTexture("obrazki/koniecgry.png");
 
     bool pizzaWPiecu = false;
     float czasWPiecu = 0.0;
     int stanPieczenia = 0;
+    bool pizzaPoprawniePrzypieczona = true;
+    int aktualnePunkty = 0;
+    int zadowoleniKlienci = 0;
+    int zrobionePizze = 0;
 
     Muzyka muzyka("muzyka/muzyka.ogg"); 
     
@@ -130,12 +136,23 @@ int main() {
             if (CheckCollisionPointRec(GetMousePosition(), przyciskWyjscie) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
                 aktualnyEkran = WYJSCIE;
         }
+
+        // GRA
         else if (aktualnyEkran == GRA) {
             UruchomGre(tloGry); 
              
             klient.rysuj();
             klient.aktualizuj();
-            klient.sprawdzInterakcje(PizzaManX,PizzaManY);
+            klient.sprawdzInterakcje(PizzaManX,PizzaManY, pizzaDodana,  sosDodany,  serDodany, peperoniDodane,  pieczarkiDodane, cebulaDodana,pizzaPoprawniePrzypieczona);
+            aktualnePunkty = klient.getPunkty();
+            zrobionePizze = klient.getZrobionePizze();
+            zadowoleniKlienci = klient.getZadowoleniKlienci();
+
+            if (klient.czyGraSkonczona()) {
+                aktualnyEkran = KONIEC_GRY;
+                aktualnePunkty = 0;
+        }
+
             
             int mouseX = GetMouseX();
             int mouseY = GetMouseY();
@@ -155,6 +172,7 @@ int main() {
             }
 
         }
+        // PRZYGOTOWANIE
         else if (aktualnyEkran == PRZYGOTOWYWANIE_PIZZY) {
             DrawTexture(tloPrzygotowania, 0, 0, WHITE);
 
@@ -217,13 +235,25 @@ int main() {
             }
             if (IsKeyPressed(KEY_BACKSPACE)) {
                 aktualnyEkran = GRA;
+                // pizzaDodana = false;
+                // sosDodany = false;
+                // serDodany = false;
+                // pieczarkiDodane = false;
+                // cebulaDodana = false;
+                // peperoniDodane = false;
+                // bez sensu tak robic bo nigdy sie nie bedzie to prawdziwe 
+            }
+
+            if (IsKeyPressed(KEY_SPACE)) {
                 pizzaDodana = false;
                 sosDodany = false;
                 serDodany = false;
                 pieczarkiDodane = false;
                 cebulaDodana = false;
                 peperoniDodane = false;
-            }
+        }
+
+        // PIEC
         }else if (aktualnyEkran == PIEC_ZBLIŻENIE) {
             DrawTexture(piecZblizenie, 0, 0, WHITE);
             
@@ -246,12 +276,18 @@ int main() {
                     stanPieczenia = 1; 
                 }
         
-                if (stanPieczenia == 0)
+                if (stanPieczenia == 0){
                     DrawTexture(pizzaSurowa, piecPizzaX, piecPizzaY, WHITE);
-                else if (stanPieczenia == 1)
+                    pizzaPoprawniePrzypieczona = false; 
+                }
+                else if (stanPieczenia == 1){
                     DrawTexture(pizzaUpieczona, piecPizzaX, piecPizzaY, WHITE);
-                else if (stanPieczenia == 2)
+                    pizzaPoprawniePrzypieczona = true; 
+                }
+                else if (stanPieczenia == 2){
                     DrawTexture(pizzaPrzypalona, piecPizzaX, piecPizzaY, WHITE);
+                    pizzaPoprawniePrzypieczona = false; 
+                }
             }
             if (!czyPizzaPrzygotowana) {
                 DrawText("Najpierw przygotuj pizze!", 220, 30, 30, WHITE);
@@ -265,14 +301,14 @@ int main() {
         
             if (IsKeyPressed(KEY_BACKSPACE)) {
                 aktualnyEkran = GRA;
-                pizzaWPiecu = false;
-                piecPizzaDodane = false;
-                czyPizzaPrzygotowana = false;
+                // pizzaWPiecu = false;
+                // piecPizzaDodane = false;
+                // czyPizzaPrzygotowana = false;
             }
         }
     
         else if(aktualnyEkran == INSTRUKCJA){
-            ClearBackground(ORANGE);
+            DrawTexture(instrukcja, 0, 0, WHITE);
         
             if (IsKeyPressed(KEY_BACKSPACE)) {
                 aktualnyEkran = MENU;
@@ -280,11 +316,17 @@ int main() {
         }
         else if(aktualnyEkran == PROFIL){
             DrawTexture(tloProfil, 0, 0, WHITE);
-        
+            DrawText(TextFormat("%i", aktualnePunkty), 460, 175, 20, BLACK);
+            DrawText(TextFormat("%i", zrobionePizze), 460, 265, 20, BLACK); 
+            DrawText(TextFormat("%i", zadowoleniKlienci), 460, 385, 20, BLACK);               
             if (IsKeyPressed(KEY_BACKSPACE)) {
                 aktualnyEkran = MENU;
             }
-        }    
+        }   
+        
+        else if(aktualnyEkran == KONIEC_GRY){
+            DrawTexture(koniec,0,0,WHITE);
+        }
         else if (aktualnyEkran == WYJSCIE) {
             break;
         }
