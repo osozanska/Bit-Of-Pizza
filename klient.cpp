@@ -14,21 +14,7 @@ Klienci::Klienci() {
     klient = LoadTexture("obrazki/klient.png");
 }
 
-Klienci::Klienci(int x, int y, int predkoscY, int czasNaZamowienie, int pizzaID, float czasNowy, bool oddana, int punkty, bool zadowolony) {
-    this->x = x;
-    this->y = y;
-    this->predkoscY = predkoscY;
-    this->czasNaZamowienie = czasNaZamowienie;
-    this->zamowionaPizzaID = pizzaID;
-    this->czyOddana = oddana;
-    this->czyZadowolony = zadowolony;
-    this->punkty = punkty;
-    this->czasNaNowegoKlienta = czasNowy;
-    this->czyAktywny = true;
-    this->zamowieniePrzyjete = false;
-    this->czasStart = GetTime();
-    klient = LoadTexture("obrazki/klient.png");
-}
+Klienci::Klienci(int x, int y, int predkoscY, int czasNaZamowienie, int pizzaID, float czasNowy, bool oddana, int punkty, bool zadowolony) : Zamowienie(pizzaID, zadowolony, punkty),  x(x), y(y), predkoscY(predkoscY), czasNaZamowienie(czasNaZamowienie), czasNaNowegoKlienta(czasNowy), czyOddana(oddana), czasStart(GetTime()), czyAktywny(true), zamowieniePrzyjete(false){}
 
 void Klienci::aktualizuj() {
     if (!czyAktywny) {
@@ -70,7 +56,7 @@ void Klienci::rysuj() {
         }
     }
 
-void Klienci::sprawdzInterakcje(int graczX, int graczY, bool pizzaDodana, bool sosDodany, bool serDodany, bool peperoniDodane, bool pieczarkiDodane, bool cebulaDodana) {
+void Klienci::sprawdzInterakcje(int graczX, int graczY, bool pizzaDodana, bool sosDodany, bool serDodany, bool peperoniDodane, bool pieczarkiDodane, bool cebulaDodana,bool popranwiePrzypieczona) {
     if (!czyAktywny || y < 225) return;
 
     Rectangle klientRec = { (float)x, (float)y, (float)klient.width, (float)klient.height };
@@ -81,7 +67,7 @@ void Klienci::sprawdzInterakcje(int graczX, int graczY, bool pizzaDodana, bool s
             wylosujPizzaID();
         } else if (zamowieniePrzyjete && !czyOddana) {
             czyOddana = true;
-            sprawdzPoprawnosc(pizzaDodana, sosDodany, serDodany, peperoniDodane, pieczarkiDodane, cebulaDodana);
+            sprawdzPoprawnosc(pizzaDodana, sosDodany, serDodany, peperoniDodane, pieczarkiDodane, cebulaDodana, popranwiePrzypieczona);
             czyAktywny = false;
             czasNaNowegoKlienta = GetTime();
         }
