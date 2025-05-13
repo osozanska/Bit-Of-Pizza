@@ -6,7 +6,7 @@
 #include "klient.hpp"
 #include "muzyka.hpp" 
 
-enum Ekran { MENU, GRA, PRZYGOTOWYWANIE_PIZZY, PIEC_ZBLIŻENIE, WYJSCIE, INSTRUKCJA};
+enum Ekran { MENU, GRA, PRZYGOTOWYWANIE_PIZZY, PIEC_ZBLIŻENIE, WYJSCIE, INSTRUKCJA, PROFIL};
 
 int main() {
     const int szerokoscOkna = 800, wysokoscOkna = 600;
@@ -27,6 +27,7 @@ int main() {
     Texture2D pizzaSurowa = LoadTexture("obrazki/pizzaSurowa.png");
     Texture2D pizzaUpieczona = LoadTexture("obrazki/pizzaUpieczona.png");
     Texture2D pizzaPrzypalona = LoadTexture("obrazki/pizzaSpalona.png");
+    Texture2D tloProfil = LoadTexture("obrazki/profil.png");
 
     bool pizzaWPiecu = false;
     float czasWPiecu = 0.0;
@@ -102,20 +103,27 @@ int main() {
             DrawText("BIT OF PIZZA", tekstX + 1, tekstY + 1, 40, BLACK);
             DrawText("BIT OF PIZZA", tekstX, tekstY, 40, WHITE);
 
-            Rectangle przyciskStart = { szerokoscOkna / 2 - 100, 200, 200, 50 };
-            DrawRectangleRec(przyciskStart, ORANGE);
-            DrawText("Start", przyciskStart.x + 60, przyciskStart.y + 10, 30, WHITE);
+        Rectangle przyciskStart = { szerokoscOkna / 2 - 100, 150, 200, 50 };
+        DrawRectangleRec(przyciskStart, ORANGE);
+        DrawText("Start", przyciskStart.x + 60, przyciskStart.y + 10, 30, WHITE);
 
-            Rectangle przyciskInstrukcja = {szerokoscOkna / 2 - 100, 300,200,50};
-            DrawRectangleRec(przyciskInstrukcja, ORANGE);
-            DrawText("Instrukcja", przyciskInstrukcja.x  + 23, przyciskInstrukcja.y + 10, 30, WHITE);
+        Rectangle przyciskProfil = { szerokoscOkna / 2 - 100, 220, 200, 50 };
+        DrawRectangleRec(przyciskProfil, ORANGE);
+        DrawText("Profil", przyciskProfil.x + 60, przyciskProfil.y + 10, 30, WHITE);
 
-            Rectangle przyciskWyjscie = { szerokoscOkna / 2 - 100, 400, 200, 50 };
-            DrawRectangleRec(przyciskWyjscie, ORANGE);
-            DrawText("Wyjscie", przyciskWyjscie.x + 50, przyciskWyjscie.y + 10, 30, WHITE);
+        Rectangle przyciskInstrukcja = { szerokoscOkna / 2 - 100, 290, 200, 50 };
+        DrawRectangleRec(przyciskInstrukcja, ORANGE);
+        DrawText("Instrukcja", przyciskInstrukcja.x + 23, przyciskInstrukcja.y + 10, 30, WHITE);
+
+        Rectangle przyciskWyjscie = { szerokoscOkna / 2 - 100, 360, 200, 50 };
+        DrawRectangleRec(przyciskWyjscie, ORANGE);
+        DrawText("Wyjscie", przyciskWyjscie.x + 50, przyciskWyjscie.y + 10, 30, WHITE);
+
 
             if (CheckCollisionPointRec(GetMousePosition(), przyciskStart) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
                 aktualnyEkran = GRA;
+            if (CheckCollisionPointRec(GetMousePosition(), przyciskProfil) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+                aktualnyEkran = PROFIL;
             if (CheckCollisionPointRec(GetMousePosition(), przyciskInstrukcja) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
                 aktualnyEkran = INSTRUKCJA;
             if (CheckCollisionPointRec(GetMousePosition(), przyciskWyjscie) && IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
@@ -140,7 +148,11 @@ int main() {
                     aktualnyEkran = PIEC_ZBLIŻENIE;
                 }
                 
-            }            
+            }
+            if (IsKeyPressed(KEY_BACKSPACE)) {
+                aktualnyEkran = MENU;
+            }
+
         }
         else if (aktualnyEkran == PRZYGOTOWYWANIE_PIZZY) {
             DrawTexture(tloPrzygotowania, 0, 0, WHITE);
@@ -264,7 +276,14 @@ int main() {
             if (IsKeyPressed(KEY_BACKSPACE)) {
                 aktualnyEkran = MENU;
             }
-        }  
+        }
+        else if(aktualnyEkran == PROFIL){
+            DrawTexture(tloProfil, 0, 0, WHITE);
+        
+            if (IsKeyPressed(KEY_BACKSPACE)) {
+                aktualnyEkran = MENU;
+            }
+        }    
         else if (aktualnyEkran == WYJSCIE) {
             break;
         }
@@ -272,6 +291,7 @@ int main() {
 
         EndDrawing();
     }
+    
     UnloadTexture(tloMenu);
     UnloadTexture(tloGry);
     CloseWindow();
@@ -284,7 +304,8 @@ int main() {
     UnloadTexture(pizzaSurowa);
     UnloadTexture(pizzaUpieczona);
     UnloadTexture(pizzaPrzypalona);
-
+    UnloadTexture(tloProfil);
     muzyka.Zakonczenie(); 
+    
     return 0;
 }
