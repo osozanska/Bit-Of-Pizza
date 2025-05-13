@@ -1,48 +1,30 @@
 #ifndef KLIENCI_HPP
 #define KLIENCI_HPP
-#include <iostream>
-#include <string>
-using namespace std;
 
 #include "raylib.h"
+#include "zamowienia.hpp"
 
-class Klienci {
+class Klienci : public Zamowienie {
 private:
-    int x;
-    int y;
+    int x, y;
     int predkoscY;
     bool czyAktywny;
     bool zamowieniePrzyjete;
-    float czasStart; 
-    int czasNaZamowienie;
-    int zamowionaPizzaID; 
-    bool pizzaDodana;
-    bool sosDodany;
-    bool serDodany;
-    bool pieczarkiDodane; 
-    bool cebulaDodana;
-    bool peperoniDodane;
-    bool piecPizzaDodane;
     bool czyOddana;
-    bool czyZadowolony;
-    Texture2D klient;
+    float czasStart;
+    int czasNaZamowienie;
     float czasNaNowegoKlienta;
-    int punkty;
-    float czasZadowolenia; 
+    Texture2D klient;
 
 public:
     Klienci();
-    Klienci(int x, int y, int predkoscY, int czasNaZamowienie, int zamowionaPizzaID, bool pizzaDodana, bool sosDodany,bool serDodany, bool peperoniDodane, bool pieczarkiDodane, bool cebulaDodana, float czasNaNowegoKlienta,bool czyOddana,int punkty, bool czyZadowolony);
+    Klienci(int x, int y, int predkoscY, int czasNaZamowienie, int pizzaID, float czasNowy, bool oddana, int punkty, bool zadowolony);
 
-    void aktualizuj();                      
-    void rysuj();                          
-    void sprawdzInterakcje(int graczX, int graczY, bool pizzaDodana, bool sosDodany, bool serDodany, bool peperoniDodane, bool pieczarkiDodane, bool cebulaDodana); 
-    int pozostalyCzas();                    
-    bool aktywny();                         
-    int getPizzaId();                      
-    void wylosowaneId();                   
-    string zamowionaPizza();               
-    void poprawnoscZamowienia(bool pizzaDodana, bool sosDodany,bool serDodany, bool peperoniDodane, bool pieczarkiDodane, bool cebulaDodana);
+    void aktualizuj();
+    void rysuj();
+    void sprawdzInterakcje(int graczX, int graczY, bool pizzaDodana, bool sosDodany, bool serDodany,bool peperoniDodane, bool pieczarkiDodane, bool cebulaDodana);
+    int pozostalyCzas();
+    bool aktywny();
 };
 
 #endif
