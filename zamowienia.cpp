@@ -8,29 +8,28 @@ Zamowienie::Zamowienie() {
     punkty = 0;
 }
 
+Zamowienie::Zamowienie(int zamowionaPizzaID, bool czyZadowolony, int punkty) : zamowionaPizzaID(zamowionaPizzaID), czyZadowolony(czyZadowolony), punkty(punkty) {}
+
+
+
 void Zamowienie::wylosujPizzaID() {
     zamowionaPizzaID = rand() % 5 + 1;
 }
 
-void Zamowienie::sprawdzPoprawnosc(bool pizzaDodana, bool sosDodany, bool serDodany,bool peperoniDodane, bool pieczarkiDodane, bool cebulaDodana) {
-    if (zamowionaPizzaID == 1 && pizzaDodana == true && sosDodany == true && serDodany == true&&
-        peperoniDodane == false && pieczarkiDodane == false && cebulaDodana == false) {
+void Zamowienie::sprawdzPoprawnosc(bool pizzaDodana, bool sosDodany, bool serDodany,bool peperoniDodane, bool pieczarkiDodane, bool cebulaDodana,bool popranwiePrzypieczona) {
+    if (zamowionaPizzaID == 1 && pizzaDodana == true && sosDodany == true && serDodany == true&& peperoniDodane == false && pieczarkiDodane == false && cebulaDodana == false && popranwiePrzypieczona == true) {
         czyZadowolony = true;
         punkty = punkty + 10;
-    } else if (zamowionaPizzaID == 2 && pizzaDodana == true && sosDodany == true && serDodany == true&&
-               peperoniDodane == true && pieczarkiDodane == false && cebulaDodana == false) {
+    } else if (zamowionaPizzaID == 2 && pizzaDodana == true && sosDodany == true && serDodany == true && peperoniDodane == true && pieczarkiDodane == false && cebulaDodana == false && popranwiePrzypieczona == true) {
         czyZadowolony = true;
         punkty =  punkty + 10;;
-    } else if (zamowionaPizzaID == 3 && pizzaDodana == true && sosDodany == true && serDodany == true &&
-               peperoniDodane == false && pieczarkiDodane == true && cebulaDodana == false) {
+    } else if (zamowionaPizzaID == 3 && pizzaDodana == true && sosDodany == true && serDodany == true && peperoniDodane == false && pieczarkiDodane == true && cebulaDodana == false && popranwiePrzypieczona == true) {
         czyZadowolony = true;
         punkty =  punkty + 10;;
-    } else if (zamowionaPizzaID == 4 && pizzaDodana == true && sosDodany == true && serDodany == true &&
-               peperoniDodane == false && pieczarkiDodane == false && cebulaDodana == true) {
+    } else if (zamowionaPizzaID == 4 && pizzaDodana == true && sosDodany == true && serDodany == true &&  peperoniDodane == false && pieczarkiDodane == false && cebulaDodana == true && popranwiePrzypieczona == true) {
         czyZadowolony = true;
         punkty =  punkty + 10;;
-    } else if (zamowionaPizzaID == 5 && pizzaDodana == true && sosDodany == true && serDodany == true &&
-               peperoniDodane == true && pieczarkiDodane == true && cebulaDodana == true) {
+    } else if (zamowionaPizzaID == 5 && pizzaDodana == true && sosDodany == true && serDodany == true && peperoniDodane == true && pieczarkiDodane == true && cebulaDodana == true && popranwiePrzypieczona == true) {
         czyZadowolony = true;
         punkty = punkty + 10;
     } else {
