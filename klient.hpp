@@ -5,7 +5,7 @@
 #include "zamowienia.hpp"
 
 class Klienci : public Zamowienie {
-private:
+protected:
     int x, y;
     int predkoscY;
     bool czyAktywny;
@@ -22,7 +22,7 @@ public:
 
     void aktualizuj();
     void rysuj();
-    void sprawdzInterakcje(int graczX, int graczY, bool pizzaDodana, bool sosDodany, bool serDodany,bool peperoniDodane, bool pieczarkiDodane, bool cebulaDodana);
+    void sprawdzInterakcje(int graczX, int graczY, bool pizzaDodana, bool sosDodany, bool serDodany,bool peperoniDodane, bool pieczarkiDodane, bool cebulaDodana,bool popranwiePrzypieczona);
     int pozostalyCzas();
     bool aktywny();
 };
