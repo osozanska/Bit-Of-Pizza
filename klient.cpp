@@ -18,14 +18,18 @@ Klienci::Klienci() {
     zamowionaPizzaID = 0;
     pizzaDodana = false;
     sosDodany = false;
+    serDodany = false;
     peperoniDodane = false;
     pieczarkiDodane = false;
     cebulaDodana = false;
     czyOddana = false;
+    czyZadowolony = false;
     klient = LoadTexture("obrazki/klient.png");
+    czasNaNowegoKlienta = 0.0; 
+    punkty = 0;
 }
 
-Klienci::Klienci(int x, int y, int predkoscY, int czasNaZamowienie, int zamowionaPizzaID, bool pizzaDodana, bool sosDodany, bool peperoniDodane, bool pieczarkiDodane, bool cebulaDodana, bool czyOddana) {
+Klienci::Klienci(int x, int y, int predkoscY, int czasNaZamowienie, int zamowionaPizzaID, bool pizzaDodana, bool sosDodany,bool serDodany, bool peperoniDodane, bool pieczarkiDodane, bool cebulaDodana, float czasNaNowegoKlienta,bool czyOddana,int punkty, bool czyZadowolony) {
     this->x = x;
     this->y = y;
     this->predkoscY = predkoscY;
@@ -36,15 +40,31 @@ Klienci::Klienci(int x, int y, int predkoscY, int czasNaZamowienie, int zamowion
     this->zamowionaPizzaID = zamowionaPizzaID;
     this->pizzaDodana = pizzaDodana;
     this->sosDodany = sosDodany;
+    this->serDodany = serDodany;
     this->peperoniDodane = peperoniDodane;
     this->pieczarkiDodane = pieczarkiDodane;
     this->cebulaDodana = cebulaDodana;
     this->czyOddana = czyOddana;
     klient = LoadTexture("obrazki/klient.png");
+    this->czasNaNowegoKlienta = czasNaNowegoKlienta; 
+    this->punkty = punkty;
+    this->czyZadowolony = czyZadowolony;
 }
 
 void Klienci::aktualizuj() {
-    if (czyAktywny == false) return;
+    if (czyAktywny == false) {
+        if (GetTime() - czasNaNowegoKlienta >= 2.0) {  
+            czasStart = GetTime();
+            zamowieniePrzyjete = false;
+            czyOddana = false;
+            zamowionaPizzaID = 0;
+            czyZadowolony = false;
+
+            czyAktywny = true;
+            y = 100; 
+        }
+        return;
+    }
 
     if (y < 225) {
         y += predkoscY;
@@ -62,6 +82,7 @@ void Klienci::rysuj() {
 
     DrawTexture(klient, x, y, WHITE);
     DrawText(TextFormat("Pozostaly czas: %i s", pozostalyCzas()), 10, 10, 20, WHITE);
+    DrawText(TextFormat("Punkty: %i", punkty), 10, 70, 20, WHITE);  
 
     if (!zamowieniePrzyjete) {
         DrawText("Podejdz i kliknij myszka, by przyjac zamowienie", 10, 40, 20, WHITE);
@@ -71,7 +92,7 @@ void Klienci::rysuj() {
     } 
 }
 
-void Klienci::sprawdzInterakcje(int graczX, int graczY) {
+void Klienci::sprawdzInterakcje(int graczX, int graczY, bool pizzaDodana, bool sosDodany, bool serDodany, bool peperoniDodane, bool pieczarkiDodane, bool cebulaDodana) {
     if (czyAktywny == false || y < 225) return;
 
     Rectangle klientrec = { (float)x, (float)y, (float)klient.width, (float)klient.height }; 
@@ -81,38 +102,33 @@ void Klienci::sprawdzInterakcje(int graczX, int graczY) {
         if (zamowieniePrzyjete == false) { 
             zamowieniePrzyjete = true;
             czasStart = GetTime();
-            wyloswaneId();
+            wylosowaneId();
         } 
         
-        else if (zamowieniePrzyjete && czyOddana == false) { 
-            czyOddana = true;
-            DrawText("Pizza dostarczona!", x, y - 50, 20, GREEN);
-            // 1- margarita, 2- peperonii, 3- pieczarki, 4 - cebula, 5 - wszystko 
-            // DO ZMIANY, to bedzie ładne, ale ważne że działa ;)
-            // POPRAWNOSC ZAMOWIEN
-            if(zamowionaPizzaID == 1 && pizzaDodana == true && sosDodany == true && serDodany == true && peperoniDodane == false && pieczarkiDodane == false && cebulaDodana == false){
-                DrawText("Klient zadowolony!", 100, 300, 50, YELLOW);
-            }
-
-            else if(zamowionaPizzaID == 2 && pizzaDodana == true && sosDodany == true && serDodany == true && peperoniDodane == true && pieczarkiDodane == false && cebulaDodana == false){
-                DrawText("Klient zadowolony!", 100, 300, 50, YELLOW); 
-            }
-
-            else if(zamowionaPizzaID == 3 && pizzaDodana == true && sosDodany == true && serDodany == true && peperoniDodane == false && pieczarkiDodane == true && cebulaDodana == false){
-                DrawText("Klient zadowolony!", 100, 300, 50, YELLOW); 
-            }
-
-            else if(zamowionaPizzaID == 4 && pizzaDodana == true && sosDodany == true && serDodany == true && peperoniDodane == false && pieczarkiDodane == false && cebulaDodana == true){
-                DrawText("Klient zadowolony!", 100, 300, 50, YELLOW); 
-            }
-
-            else if(zamowionaPizzaID == 5 && pizzaDodana == true && sosDodany == true && serDodany == true && peperoniDodane == true && pieczarkiDodane == true && cebulaDodana == true){
-                DrawText("Klient zadowolony!", 100, 300, 50, YELLOW); 
-            }
-            else{
-                DrawText("Klient zly",100,300,50, YELLOW );
-            }
+    else if (zamowieniePrzyjete && czyOddana == false) { 
+        poprawnoscZamowienia(pizzaDodana,sosDodany,serDodany,peperoniDodane,pieczarkiDodane,cebulaDodana);
+        czyOddana = true;
+        DrawText("Pizza dostarczona!", x, y - 50, 20, GREEN);
+        czyAktywny = false; 
+        if(czyZadowolony == true){
+            DrawText("TAK", 100,300,200,YELLOW);
+            czasNaNowegoKlienta = GetTime();  
+            punkty = punkty + 10;
+        } else{
+            DrawText("NIE", 100,300,200,RED);
+            czasNaNowegoKlienta = GetTime();
+            punkty = punkty - 10;
         }
+    }
+//     else if (zamowieniePrzyjete == true && czyOddana == true) { 
+//     poprawnoscZamowienia(pizzaDodana, sosDodany, serDodany,peperoniDodane, pieczarkiDodane, cebulaDodana);
+//     czyOddana = true;
+//     DrawText("Pizza dostarczona!", x, y - 50, 20, GREEN);
+//     czyAktywny = false; 
+//     czasNaNowegoKlienta = GetTime();  
+// }
+
+
     }
 }
 
@@ -132,10 +148,9 @@ bool Klienci::aktywny() {
 
 int Klienci::getPizzaId(){
     return zamowionaPizzaID;
-
 }
 
-void Klienci::wyloswaneId(){
+void Klienci::wylosowaneId(){
     zamowionaPizzaID = rand() % 5 + 1;
 }
 
@@ -157,4 +172,25 @@ string Klienci::zamowionaPizza(){
         DrawText("Klient zamowil Pizze ze Wszystkim!", 10, 70, 20, YELLOW);
         return "Pizza ze Wszystkim";
     }
+}
+
+void Klienci::poprawnoscZamowienia(bool pizzaDodana, bool sosDodany,bool serDodany, bool peperoniDodane, bool pieczarkiDodane, bool cebulaDodana){
+                if(zamowionaPizzaID == 1 && pizzaDodana == true && sosDodany == true && serDodany == true && peperoniDodane == false && pieczarkiDodane == false && cebulaDodana == false){
+                    czyZadowolony = true;
+                }
+            else if(zamowionaPizzaID == 2 && pizzaDodana == true && sosDodany == true && serDodany == true && peperoniDodane == true && pieczarkiDodane == false && cebulaDodana == false){
+                    czyZadowolony = true;
+                }
+            else if(zamowionaPizzaID == 3 && pizzaDodana == true && sosDodany == true && serDodany == true && peperoniDodane == false && pieczarkiDodane == true && cebulaDodana == false){
+                    czyZadowolony = true;
+                }
+            else if(zamowionaPizzaID == 4 && pizzaDodana == true && sosDodany == true && serDodany == true && peperoniDodane == false && pieczarkiDodane == false && cebulaDodana == true){
+                    czyZadowolony = true;
+                }
+            else if(zamowionaPizzaID == 5 && pizzaDodana == true && sosDodany == true && serDodany == true && peperoniDodane == true && pieczarkiDodane == true && cebulaDodana == true){
+                    czyZadowolony = true;
+                }
+            else{
+                    czyZadowolony = false;
+                }
 }
