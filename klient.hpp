@@ -24,7 +24,9 @@ public:
     void rysuj();
     void sprawdzInterakcje(int graczX, int graczY, bool pizzaDodana, bool sosDodany, bool serDodany,bool peperoniDodane, bool pieczarkiDodane, bool cebulaDodana,bool popranwiePrzypieczona);
     int pozostalyCzas();
-    bool aktywny();
+    bool getAktywny();
+    bool czyGraSkonczona();
+
 };
 
 #endif
