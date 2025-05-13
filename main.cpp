@@ -5,6 +5,7 @@
 #include "punkty.hpp"
 #include "klient.hpp"
 #include "muzyka.hpp" 
+#include "zamowienia.hpp"
 
 enum Ekran { MENU, GRA, PRZYGOTOWYWANIE_PIZZY, PIEC_ZBLIŻENIE, WYJSCIE, INSTRUKCJA, PROFIL};
 
