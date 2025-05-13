@@ -67,17 +67,10 @@ void Klienci::rysuj() {
     } else {
         DrawText("Zamowienie przyjete!", 10, 40, 20, GREEN);
         DrawText(tekstZamowienia().c_str(), 10, 100, 20, YELLOW);
-        if (czyOddana == true) {
-            if (czyZadowolony == true)
-                DrawText("Klient zadowolony! +10 punktow", 100, 300, 40, YELLOW);
-            else if(czyZadowolony == false)
-                DrawText("Klient niezadowolony! -5 punktow", 100, 300, 40, RED);
         }
     }
-}
 
-void Klienci::sprawdzInterakcje(int graczX, int graczY, bool pizzaDodana, bool sosDodany, bool serDodany,
-                                bool peperoniDodane, bool pieczarkiDodane, bool cebulaDodana) {
+void Klienci::sprawdzInterakcje(int graczX, int graczY, bool pizzaDodana, bool sosDodany, bool serDodany, bool peperoniDodane, bool pieczarkiDodane, bool cebulaDodana) {
     if (!czyAktywny || y < 225) return;
 
     Rectangle klientRec = { (float)x, (float)y, (float)klient.width, (float)klient.height };
