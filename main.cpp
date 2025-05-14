@@ -175,6 +175,7 @@ int main() {
         // PRZYGOTOWANIE
         else if (aktualnyEkran == PRZYGOTOWYWANIE_PIZZY) {
             DrawTexture(tloPrzygotowania, 0, 0, WHITE);
+            DrawText(TextFormat("Pozostaly czas: %i s", klient.pozostalyCzas()), 10, 10, 20, WHITE);
 
             if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
                 if (CheckCollisionPointRec((Vector2){(float)GetMouseX(), (float)GetMouseY()}, walek)) {
@@ -256,7 +257,8 @@ int main() {
         // PIEC
         }else if (aktualnyEkran == PIEC_ZBLIŻENIE) {
             DrawTexture(piecZblizenie, 0, 0, WHITE);
-            
+            DrawText(TextFormat("Pozostaly czas: %i s", klient.pozostalyCzas()), 10, 10, 20, WHITE);
+
             if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
                 if (CheckCollisionPointRec((Vector2){(float)GetMouseX(), (float)GetMouseY()}, piecPizza)) {
                     if (czyPizzaPrzygotowana) {
