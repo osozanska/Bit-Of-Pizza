@@ -18,7 +18,6 @@ Bądź Szybki! Klienci czekają, a im szybciej dostarczysz zamówienie, tym wię
 Aby uruchomić grę, potrzebujesz zainstalowanej biblioteki Raylib (https://www.raylib.com/). Oto jak skonfigurować środowisko i uruchomić grę:
 
 1.Zainstaluj Raylib – postępuj zgodnie z instrukcjami na stronie Raylib.
-
 2. Pobierz ZIP z GitHub
 Bit Of Pizza
 3.Uruchomienie – Wypakuj ZIP i kliknij na skrót
